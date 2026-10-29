@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<!-- De stukken voor engelse maandmail staan in comments (zowel index.html als index.js) -->
+<head>
+    <title>Maandmail Bouwer</title>
+    <script src="index.js"></script>
+    <style>
+        .bestuurKleur {
+            color: #482a3a;
+        }
+
+        .button-row {
+            display: flex;
+        }
+
+        .button-row button {
+            margin-inline: .2em;
+            border: none;
+            padding: 5px;
+        }
+
+        .button-row .add-button {
+            background-color: lightgreen;
+        }
+
+        .button-row button:hover {
+            background-image: linear-gradient(rgb(0 0 0/20%) 0 0);
+        }
+
+        .button-row .remove-button {
+            background-color: lightcoral;
+        }
+
+        .FancyButton {
+            background-color: lightgray;
+            border-style: dashed;
+            border-width: 2px;
+            border-color: black;
+            padding: 5px;
+        }
+    </style>
+    <template id="opkomst-template">
+        <div data-gmail-template="text-slot"
+            style="margin-bottom: 20px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
+            tabindex="1" role="textbox" class="anG TbVst">
+            <div style="margin-bottom: 10px;">
+                <div contenteditable="true">
+                    <b style="letter-spacing: 0px;">Opkomst
+                        door
+                        *naam*
+                        &amp;
+                        *naam*</b><br>
+                </div>
+                <div contenteditable="true">
+                    <b>
+                        <font size="2">
+                            *dag*
+                            *maand*
+                            20:00
+                        </font>
+                    </b>
+                </div>
+            </div>
+            <div contenteditable="true">
+                Stukje
+                over
+                de
+                opkomst.
+            </div>
+        </div>
+    </template>
+    <template id="borrel-template">
+        <div data-gmail-template="text-slot"
+            style="margin-bottom: 20px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
+            tabindex="1" role="textbox" class="anG TbVst">
+            <div style="margin-bottom: 10px;" >
+                <div contenteditable="true">
+                    <b style="letter-spacing: 0px;">Borrel
+                        bij
+                        *naam*</b><br>
+                </div>
+                <div contenteditable="true">
+                    <b>
+                        <font size="2">
+                            *dag*
+                            *maand*
+                            20:00
+                        </font>
+                    </b>
+                </div>
+            </div>
+            <div contenteditable="true">
+                Stukje
+                over
+                de
+                borrel.
+            </div>
+        </div>
+    </template>
+    <template id="activiteit-template">
+        <div data-gmail-template="text-slot"
+            style="margin-bottom: 20px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
+            tabindex="1" role="textbox" class="anG TbVst">
+            <div style="margin-bottom: 10px;">
+                <div contenteditable="true">
+                    <b style="letter-spacing: 0px;">*activiteit*</b><br>
+                </div>
+                <div contenteditable="true">
+                    <b>
+                        <font size="2">
+                            *dag*
+                            *maand*
+                            *tijd*
+                        </font>
+                    </b>
+                </div>
+            </div>
+            <div contenteditable="true">
+                Stukje
+                over
+                de
+                activiteit.
+            </div>
+        </div>
+    </template>
+    <template id="mededeling-template">
+        <div data-gmail-template="text-slot"
+            style="margin-bottom: 20px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
+            tabindex="1" role="textbox" class="anG TbVst">
+            <div style="margin-bottom: 10px;" contenteditable="true">
+                <b style="letter-spacing: 0px;">*mededeling
+                    titel*</b>
+            </div>
+            <div contenteditable="true">
+                Mededeling
+            </div>
+        </div>
+    </template>
+    <template id="templateOverig">
+        <div id="mededelingOverig" data-id="7">
+            <div data-gmail-template="text-slot"
+            style=" font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
+            tabindex="1"
+            role="textbox"
+            class="anG TbVst">
+            <hr>
+            <div contenteditable="true"
+                style="text-align: center;">
+                <font class="bestuurKleur"
+                    size="4">
+                    <b>*Overig*</b>
+                </font>
+            </div>
+            <hr>
+                                                                                                                                </div>
+                                                                                                                                <div
+                                                                                                                                data-id="99"
+                >
+            <div data-gmail-template="text-slot"
+                style="margin-bottom: 20px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
+                tabindex="1"
+                role="textbox"
+                class="anG TbVst"
+                    >
+                <div style="margin-bottom: 10px;"
+                    contenteditable="true">
+                    <b
+                        style="letter-spacing: 0px;">*Voeg hier een titel toe*</b>
+                </div>
+                <div
+                    contenteditable="true">
+                    Hier kan je schrijven wat je wilt
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="verjaardag-template">
+        <div data-gmail-template="text-slot"
+        style="margin-bottom: 3px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
+        tabindex="1"
+        role="textbox"
+        class="anG TbVst"
+        data-id="5">
+        <div>
+            <b contenteditable="true"
+            style="letter-spacing: 0px;">00-00</b> <span contenteditable="true">Naam</span>
+        </div>
+    </div>
+    </template>
+</head>
+
+<body>
+    <!-- 
+    De 'Save' knop slaat de huidige gegevens lokaal op in je browser. 
+    De 'Load' knop haalt de lokaal opgeslagen gegevens op en laadt deze in de applicatie. 
+    Deze informatie wordt alleen lokaal opgeslagen en is niet toegankelijk voor anderen.
+    -->
+    <p>
+        De 'Save' knop slaat de huidige maandmail lokaal op in je browser. <br>
+        De 'Load' knop haalt de lokaal opgeslagen maandmail op en laadt deze in. <br>
+        De 'Emergency Load' knop haalt de meest recent afgesloten pagina op en laadt deze in. <br>
+        Deze maandmail wordt alleen lokaal opgeslagen en is niet toegankelijk voor anderen. <br>
+    </p>
+    <button id="save_content" class="FancyButton">Save</button>
+    <button id="load_content" class="FancyButton">Load</button>
+    <button id="emergency_content" class="FancyButton">Emergency Load</button>
+    <br><br>
+    <div id="content">
+    <div
+        style="position: sticky; top: 0; width: 100%; background-color: white; border-style: solid; border-width: 0 0 1px 0;">
+        <table>
+            <tr>
+                <td>Sleutelstam activiteiten:</td>
+                <td id="ssl-knoppen" class="button-row">
+                    <button class="add-button" type="button" onclick="addOpkomst()">Opkomst toevoegen</button>
+                    <button class="add-button" type="button" onclick="addBorrel()">Borrel toevoegen</button>
+                    <button class="add-button" type="button" onclick="addActiviteitSSL()">Activiteit toevoegen</button>
+                    <button class="remove-button" type="button" data-id="1">Opkomst
+                        verwijderen</button>
+                    <button class="remove-button" type="button" data-id="2">Borrel verwijderen</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Activiteiten van andere studentenstammen:</td>
+                <td id="ssn-knoppen" class="button-row">
+                    <button class="add-button" type="button" onclick="addActiviteitSSN()">Activiteit toevoegen</button>
+                    <button class="remove-button" type="button" data-id="3">Activiteit verwijderen</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Mededelingen van commissies:</td>
+                <td id="com-knoppen" class="button-row">
+                    <button class="add-button" type="button" onclick="addCommissieMededeling()">Mededeling
+                        toevoegen</button>
+                    <button class="remove-button" type="button" data-id="4">Mededeling verwijderen</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Mededelingen van het bestuur:</td>
+                <td id="bes-knoppen" class="button-row">
+                    <button class="add-button" type="button" onclick="addBestuurMededeling()">Mededeling
+                        toevoegen</button>
+                    <button class="remove-button" type="button" data-id="5">Mededeling verwijderen</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Overig:</td>
+                <td id="ovr-knoppen" class="button-row">
+                    <button class="add-button" type="button" onclick="addOverig()">Sectie overig toevoegen</button>
+                    <button class="remove-button" type="button" data-id="7">Sectie overig verwijderen</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Verjaardagen:</td>
+                <td id="ver-knoppen" class="button-row">
+                    <button class="add-button" type="button" onclick="addVerjaardag()">Verjaardag toevoegen</button>
+                    <button class="remove-button" type="button" data-id="6">Verjaardag verwijderen</button>
+                </td>
+            </tr>
+            <tr>
+                <td><button class="FancyButton" type="button" onclick="copyMaandmail()">Kopieer
+                        maandmail</button></td>
+            </tr>
+        </table>
+    </div>
+    <div><table id="maandmail" style="background-color: #e06666; padding: 0 20px !important;" role="presentation"
+        width="100%" border="0" cellspacing="0" cellpadding="0" data-gmail-template="body" contenteditable="false">
+        <tbody>
+            <tr height="0">
+                <td colspan="3"><span
+                        style="padding-top: 0; font-size: 0; line-height: 0; color: #e06666; background-color: #e06666; mso-hide: all; display: none; overflow: hidden; max-height: 0;"
+                        data-gmail-template="preview-text"></span></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td align="center" valign="top" width="600">
+                    <table width="600" border="0" cellspacing="0" cellpadding="0"
+                        style="width: 100%; max-width: 600px;background-color: #e06666;" bgcolor="#e06666"
+                        role="presentation">
+                        <tbody>
+                            <tr>
+                                <td data-gmail-template="content-parent">
+                                    <style>
+                                        @media only screen and (max-width: 480px) {
+                                            .oEQ55c {
+                                                width: 100% !important;
+                                            }
+
+                                            .zhwgeb {
+                                                width: auto !important;
+                                            }
+
+                                            .MHCHNe {
+                                                max-width: 100% !important;
+                                            }
+                                        }
+                                    </style>
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <table data-gmail-template="header" align="center" border="0"
+                                                        cellpadding="0" cellspacing="0" role="region"
+                                                        style=" border-collapse: collapse; background: #fff; background-color: #fff; width: 100%; "
+                                                        bgcolor="#fff" width="100%" aria-label="Kop" class="Vrbnqb">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style=" border-collapse: collapse; direction: ltr; font-size: 0; text-align: center; "
+                                                                    align="center">
+                                                                    <div
+                                                                        style=" font-size: 0; text-align: left; direction: ltr; display: inline-block; vertical-align: top; width: 100%; ">
+                                                                        <table border="0" cellpadding="0"
+                                                                            cellspacing="0" role="presentation"
+                                                                            style=" border-collapse: collapse; background-color: #fff; vertical-align: top; "
+                                                                            width="100%" bgcolor="#fff" valign="top">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td align="center"
+                                                                                        style=" border-collapse: collapse; font-size: 0; padding: 26px 20px; word-break: break-word; ">
+                                                                                        <table border="0" cellpadding="0" cellspacing="0" align="center">
+                                                                                            <tr>
+                                                                                                <td align="center" style="padding-right: 10px;">
+                                                                                                    <img src="https://www.sleutelstam.nl/maandmail/logo.png"
+                                                                                                     alt="Logo"
+                                                                                                     width="93" height="100"
+                                                                                                     style="display:block; border:0; outline:none;">
+                                                                                                </td>
+                                                                                        
+                                                                                                <td align="center" style="padding-left: 10px;">
+                                                                                                    <img src="https://www.sleutelstam.nl/maandmail/logoBestuur.png"
+                                                                                                     alt="LogoBestuur"
+                                                                                                     width="100" height="126"
+                                                                                                     style="display:block; border:0; outline:none;">
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </table>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <table data-gmail-template="section" align="center" border="0"
+                                                        cellpadding="0" cellspacing="0" role="region"
+                                                        style=" border-collapse: collapse; background-color: white; width: 100%; "
+                                                        bgcolor="white" width="100%" aria-label="Sectie" class="Vrbnqb">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style=" border-collapse: collapse; direction: ltr; font-size: 0; padding-bottom: 30px; text-align: center; "
+                                                                    align="center">
+                                                                    <table data-gmail-template="section" align="center"
+                                                                        border="0" cellpadding="0" cellspacing="0"
+                                                                        role="region"
+                                                                        style="border-collapse: collapse; display: inline-table"
+                                                                        width="80%" aria-label="Sectie" class="Vrbnqb">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td style=" border-collapse: collapse; direction: ltr; font-size: 0; padding: 0; text-align: center; "
+                                                                                    align="center">
+                                                                                    <div
+                                                                                        style=" font-size: 0; text-align: left; direction: ltr; display: inline-block; vertical-align: middle; width: 100%; ">
+                                                                                        <table border="0"
+                                                                                            cellpadding="0"
+                                                                                            cellspacing="0"
+                                                                                            role="presentation"
+                                                                                            width="100%"
+                                                                                            style="border-collapse: collapse">
+                                                                                            <tbody>
+                                                                                                <tr>
+                                                                                                    <td style=" border-collapse: collapse; vertical-align: middle; "
+                                                                                                        valign="middle">
+                                                                                                        <table
+                                                                                                            border="0"
+                                                                                                            cellpadding="0"
+                                                                                                            cellspacing="0"
+                                                                                                            role="presentation"
+                                                                                                            style=" border-collapse: collapse; "
+                                                                                                            width="100%">
+                                                                                                            <tbody>
+                                                                                                                <tr>
+                                                                                                                    <td align="center"
+                                                                                                                        style=" border-collapse: collapse; font-size: 0; padding: 0 10px;word-break: break-word; ">
+                                                                                                                        <div data-gmail-template="text-slot"
+                                                                                                                        class="bestuurKleur"
+                                                                                                                            style=" font-family: georgia,serif; font-weight: 400; font-size: 32px; letter-spacing: 0; line-height: normal; text-align: center;" "
+                                                                                                                            contenteditable="true"
+                                                                                                                            tabindex="1"
+                                                                                                                            role="textbox"
+                                                                                                                            class="anG TbVst">
+                                                                                                                            Maandmail
+                                                                                                                            *maand*
+                                                                                                                        </div>
+                                                                                                                    </td>
+                                                                                                                </tr>
+                                                                                                            </tbody>
+                                                                                                        </table>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <table data-gmail-template="section" align="center"
+                                                                        border="0" cellpadding="0" cellspacing="0"
+                                                                        role="region"
+                                                                        style="border-collapse: collapse; display: inline-table"
+                                                                        width="80%" aria-label="Sectie" class="Vrbnqb">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td style=" border-collapse: collapse; direction: ltr; font-size: 0; padding: 0; text-align: center; "
+                                                                                    align="center">
+                                                                                    <div
+                                                                                        style=" font-size: 0; text-align: left; direction: ltr; display: inline-block; vertical-align: middle; width: 100%; ">
+                                                                                        <table border="0"
+                                                                                            cellpadding="0"
+                                                                                            cellspacing="0"
+                                                                                            role="presentation"
+                                                                                            width="100%"
+                                                                                            style="border-collapse: collapse">
+                                                                                            <tbody>
+                                                                                                <tr>
+                                                                                                    <td style=" border-collapse: collapse; vertical-align: middle; "
+                                                                                                        valign="middle">
+                                                                                                        <table
+                                                                                                            border="0"
+                                                                                                            cellpadding="0"
+                                                                                                            cellspacing="0"
+                                                                                                            role="presentation"
+                                                                                                            style=" border-collapse: collapse; "
+                                                                                                            width="100%">
+                                                                                                            <tbody>
+                                                                                                                <tr>
+                                                                                                                    <td align="center"
+                                                                                                                        style=" border-collapse: collapse; font-size: 0; padding: 0 10px; padding-top: 18px; word-break: break-word; ">
+                                                                                                                        <div data-gmail-template="text-slot"
+                                                                                                                            style=" font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
+                                                                                                                            contenteditable="true"
+                                                                                                                            tabindex="1"
+                                                                                                                            role="textbox"
+                                                                                                                            class="anG TbVst">
+                                                                                                                            <i>Lief
+                                                                                                                                lid,</i>
+                                                                                                                            <div>
+                                                                                                                                <i><br></i>
+                                                                                                                            </div>
+                                                                                                                            <div>
+                                                                                                                                <i>Hier
+                                                                                                                                    schrijft
+                                                                                                                                    het
+                                                                                                                                    bestuur
+                                                                                                                                    een
+                                                                                                                                    kort
+                                                                                                                                    stukje
+                                                                                                                                    over
+                                                                                                                                    wat
+                                                                                                                                    er
+                                                                                                                                    allemaal
+                                                                                                                                    zal
+                                                                                                                                    plaatsvinden
+                                                                                                                                    deze
+                                                                                                                                    maand.</i>
+                                                                                                                            </div>
+                                                                                                                            <div>
+                                                                                                                                <i><br></i>
+                                                                                                                            </div>
+                                                                                                                            <div>
+                                                                                                                                <i>~bestuur
+                                                                                                                                    FeniX</i>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                        <div data-gmail-template="text-slot"
+                                                                                                                            style=" font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
+                                                                                                                            tabindex="1"
+                                                                                                                            role="textbox"
+                                                                                                                            class="anG TbVst">
+                                                                                                                            <hr>
+                                                                                                                            <div
+                                                                                                                                style="text-align: center;">
+                                                                                                                                <font class="bestuurKleur"
+                                                                                                                                    size="4">
+                                                                                                                                    <b>Sleutelstam
+                                                                                                                                        activiteiten</b>
+                                                                                                                                </font>
+                                                                                                                            </div>
+                                                                                                                            <hr>
+                                                                                                                        </div>
+                                                                                                                        <div
+                                                                                                                            id="ssl-activiteiten">
+                                                                                                                            <div data-gmail-template="text-slot"
+                                                                                                                                style="margin-bottom: 20px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
+                                                                                                                                tabindex="1"
+                                                                                                                                role="textbox"
+                                                                                                                                class="anG TbVst"
+                                                                                                                                data-id="1">
+                                                                                                                                <div style="margin-bottom: 10px;">
+                                                                                                                                    <div contenteditable="true">
+                                                                                                                                        <b
+                                                                                                                                            style="letter-spacing: 0px;">Opkomst
+                                                                                                                                            door
+                                                                                                                                            *naam*
+                                                                                                                                            &amp;
+                                                                                                                                            *naam*</b><br>
+                                                                                                                                    </div>
+                                                                                                                                    <div contenteditable="true">
+                                                                                                                                        <b>
+                                                                                                                                            <font
+                                                                                                                                                size="2">
+                                                                                                                                                *dag*
+                                                                                                                                                *maand*
+                                                                                                                                                20:00
+                                                                                                                                            </font>
+                                                                                                                                        </b>
+                                                                                                                                    </div>
+                                                                                                                                </div>
+                                                                                                                                <div
+                                                                                                                                    contenteditable="true">
+                                                                                                                                    Stukje
+                                                                                                                                    over
+                                                                                                                                    de
+                                                                                                                                    opkomst.
+                                                                                                                                </div>
+                                                                                                                            </div>
+                                                                                                                            <div data-gmail-template="text-slot"
+                                                                                                                                style="margin-bottom: 20px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
+                                                                                                                                tabindex="1"
+                                                                                                                                role="textbox"
+                                                                                                                                class="anG TbVst"
+                                                                                                                                data-id="2">
+                                                                                                                                <div style="margin-bottom: 10px;">
+                                                                                                                                    <div contenteditable="true">
+                                                                                                                                        <b
+                                                                                                                                            style="letter-spacing: 0px;">Borrel
+                                                                                                                                            bij
+                                                                                                                                            *naam*</b><br>
+                                                                                                                                    </div>
+                                                                                                                                    <div contenteditable="true">
+                                                                                                                                        <b>
+                                                                                                                                            <font
+                                                                                                                                                size="2">
+                                                                                                                                                *dag*
+                                                                                                                                                *maand*
+                                                                                                                                                20:00
+                                                                                                                                            </font>
+                                                                                                                                        </b>
+                                                                                                                                    </div>
+                                                                                                                                </div>
+                                                                                                                                <div
+                                                                                                                                    contenteditable="true">
+                                                                                                                                    Stukje
+                                                                                                                                    over
+                                                                                                                                    de
+                                                                                                                                    borrel.
+                                                                                                                                </div>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                        <div data-gmail-template="text-slot"
+                                                                                                                            style=" font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
+                                                                                                                            tabindex="1"
+                                                                                                                            role="textbox"
+                                                                                                                            class="anG TbVst">
+                                                                                                                            <hr>
+                                                                                                                            <div
+                                                                                                                                style="text-align: center;">
+                                                                                                                                <font class="bestuurKleur"
+                                                                                                                                    size="4">
+                                                                                                                                    <b>Activiteiten
+                                                                                                                                        van
+                                                                                                                                        andere
+                                                                                                                                        studentenstammen</b>
+                                                                                                                                </font>
+                                                                                                                            </div>
+                                                                                                                            <hr>
+                                                                                                                        </div>
+                                                                                                                        <div
+                                                                                                                            id="ssn-activiteiten">
+                                                                                                                            <div data-gmail-template="text-slot"
+                                                                                                                                style="margin-bottom: 20px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
+                                                                                                                                tabindex="1"
+                                                                                                                                role="textbox"
+                                                                                                                                class="anG TbVst"
+                                                                                                                                data-id="3">
+                                                                                                                                <div style="margin-bottom: 10px;">
+                                                                                                                                    <div contenteditable="true">
+                                                                                                                                        <b
+                                                                                                                                            style="letter-spacing: 0px;">*activiteit*</b><br>
+                                                                                                                                    </div>
+                                                                                                                                    <div contenteditable="true">
+                                                                                                                                        <b>
+                                                                                                                                            <font
+                                                                                                                                                size="2">
+                                                                                                                                                *dag*
+                                                                                                                                                *maand*
+                                                                                                                                                *tijd*
+                                                                                                                                            </font>
+                                                                                                                                        </b>
+                                                                                                                                    </div>
+                                                                                                                                </div>
+                                                                                                                                <div
+                                                                                                                                    contenteditable="true">
+                                                                                                                                    Stukje
+                                                                                                                                    over
+                                                                                                                                    de
+                                                                                                                                    activiteit.
+                                                                                                                                </div>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                        <div data-gmail-template="text-slot"
+                                                                                                                            style=" font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
+                                                                                                                            tabindex="1"
+                                                                                                                            role="textbox"
+                                                                                                                            class="anG TbVst">
+                                                                                                                            <hr>
+                                                                                                                            <div
+                                                                                                                                style="text-align: center;">
+                                                                                                                                <font class="bestuurKleur"
+                                                                                                                                    size="4">
+                                                                                                                                    <b>Mededelingen
+                                                                                                                                        van
+                                                                                                                                        commissies</b>
+                                                                                                                                </font>
+                                                                                                                            </div>
+                                                                                                                            <hr>
+                                                                                                                        </div>
+                                                                                                                        <div
+                                                                                                                            id="commissie-mededelingen">
+                                                                                                                            <div data-gmail-template="text-slot"
+                                                                                                                                style="margin-bottom: 20px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
+                                                                                                                                tabindex="1"
+                                                                                                                                role="textbox"
+                                                                                                                                class="anG TbVst"
+                                                                                                                                data-id="4">
+                                                                                                                                <div style="margin-bottom: 10px;"
+                                                                                                                                    contenteditable="true">
+                                                                                                                                    <b
+                                                                                                                                        style="letter-spacing: 0px;">*mededeling
+                                                                                                                                        titel*</b>
+                                                                                                                                </div>
+                                                                                                                                <div
+                                                                                                                                    contenteditable="true">
+                                                                                                                                    Mededeling
+                                                                                                                                </div>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                        <div data-gmail-template="text-slot"
+                                                                                                                            style="margin-bottom: 20px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
+                                                                                                                            tabindex="1"
+                                                                                                                            role="textbox"
+                                                                                                                            class="anG TbVst">
+                                                                                                                            <div>
+                                                                                                                                Iets
+                                                                                                                                te
+                                                                                                                                melden
+                                                                                                                                voor
+                                                                                                                                de
+                                                                                                                                volgende
+                                                                                                                                maandmail?
+                                                                                                                                Stuur
+                                                                                                                                dan
+                                                                                                                                namens
+                                                                                                                                de
+                                                                                                                                commissie
+                                                                                                                                een
+                                                                                                                                email
+                                                                                                                                naar
+                                                                                                                                <a
+                                                                                                                                    href="mailto:bestuur@sleutelstam.nl">bestuur@sleutelstam.nl</a>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                        <div data-gmail-template="text-slot"
+                                                                                                                            style=" font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
+                                                                                                                            tabindex="1"
+                                                                                                                            role="textbox"
+                                                                                                                            class="anG TbVst">
+                                                                                                                            <hr>
+                                                                                                                            <div
+                                                                                                                                style="text-align: center;">
+                                                                                                                                <font class="bestuurKleur"
+                                                                                                                                    size="4">
+                                                                                                                                    <b>Mededelingen
+                                                                                                                                        van
+                                                                                                                                        het
+                                                                                                                                        bestuur</b>
+                                                                                                                                </font>
+                                                                                                                            </div>
+                                                                                                                            <hr>
+                                                                                                                        </div>
+                                                                                                                        <div
+                                                                                                                            id="bestuur-mededelingen">
+                                                                                                                            <div data-gmail-template="text-slot"
+                                                                                                                                style="margin-bottom: 20px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
+                                                                                                                                tabindex="1"
+                                                                                                                                role="textbox"
+                                                                                                                                class="anG TbVst"
+                                                                                                                                data-id="5">
+                                                                                                                                <div style="margin-bottom: 10px;"
+                                                                                                                                    contenteditable="true">
+                                                                                                                                    <b
+                                                                                                                                        style="letter-spacing: 0px;">*mededeling
+                                                                                                                                        titel*</b>
+                                                                                                                                </div>
+                                                                                                                                <div
+                                                                                                                                    contenteditable="true">
+                                                                                                                                    Mededeling
+                                                                                                                                </div>
+                                                                                                                            </div>
+                                                                                                                        </div>
+
+                                                                                                                        <div id="overig-mededelingen">
+                                                                                                                            <div id="mededelingOverig" data-id="7">
+                                                                                                                                <div data-gmail-template="text-slot"
+                                                                                                                                style=" font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
+                                                                                                                                tabindex="1"
+                                                                                                                                role="textbox"
+                                                                                                                                class="anG TbVst">
+                                                                                                                                <hr>
+                                                                                                                                <div contenteditable="true"
+                                                                                                                                    style="text-align: center;">
+                                                                                                                                    <font class="bestuurKleur"
+                                                                                                                                        size="4">
+                                                                                                                                        <b>*Overig*</b>
+                                                                                                                                    </font>
+                                                                                                                                </div>
+                                                                                                                                <hr>
+                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                    <div
+                                                                                                                                                                                                                                                    data-id="99"
+                                                                                                                                    >
+                                                                                                                                <div data-gmail-template="text-slot"
+                                                                                                                                    style="margin-bottom: 20px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
+                                                                                                                                    tabindex="1"
+                                                                                                                                    role="textbox"
+                                                                                                                                    class="anG TbVst"
+                                                                                                                                        >
+                                                                                                                                    <div style="margin-bottom: 10px;"
+                                                                                                                                        contenteditable="true">
+                                                                                                                                        <b
+                                                                                                                                            style="letter-spacing: 0px;">*Voeg hier een titel toe*</b>
+                                                                                                                                    </div>
+                                                                                                                                    <div
+                                                                                                                                        contenteditable="true">
+                                                                                                                                        Hier kan je schrijven wat je wilt
+                                                                                                                                    </div>
+                                                                                                                                </div>
+                                                                                                                            </div>
+                                                                                                                                                                                                                                                </div>
+                                                                                                                        </div>
+
+
+                                                                                                                        <div data-gmail-template="text-slot"
+                                                                                                                            style=" font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
+                                                                                                                            tabindex="1"
+                                                                                                                            role="textbox"
+                                                                                                                            class="anG TbVst">
+                                                                                                                            <hr>
+                                                                                                                            <div
+                                                                                                                                style="text-align: center;">
+                                                                                                                                <font class="bestuurKleur"
+                                                                                                                                    size="4">
+                                                                                                                                    <b>Verjaardagen!</b>
+                                                                                                                                </font>
+                                                                                                                            </div>
+                                                                                                                            <hr>
+                                                                                                                        </div>
+                                                                                                                        <div data-gmail-template="text-slot"
+                                                                                                                            style="margin-bottom: 10px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
+                                                                                                                            tabindex="1"
+                                                                                                                            role="textbox"
+                                                                                                                            class="anG TbVst">
+                                                                                                                            <div>
+                                                                                                                                <span contenteditable="true">De volgende leden zijn jarig de komende maand:</span>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                        <div id="verjaardagen">
+                                                                                                                            <div data-gmail-template="text-slot"
+                                                                                                                                style="margin-bottom: 3px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
+                                                                                                                                tabindex="1"
+                                                                                                                                role="textbox"
+                                                                                                                                class="anG TbVst"
+                                                                                                                                data-id="6">
+                                                                                                                                <div
+                                                                                                                                    >
+                                                                                                                                        <b contenteditable="true"
+                                                                                                                                        style="letter-spacing: 0px;">00-00</b> <span contenteditable="true">Naam</span>
+                                                                                                                                </div>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                    </td>
+                                                                                                                </tr>
+                                                                                                            </tbody>
+                                                                                                        </table>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <table data-gmail-template="section" align="center"
+                                                                        border="0" cellpadding="0" cellspacing="0"
+                                                                        role="region"
+                                                                        style="border-collapse: collapse; display: inline-table"
+                                                                        width="80%" aria-label="Sectie" class="Vrbnqb">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td style=" border-collapse: collapse; direction: ltr; font-size: 0; padding: 0; text-align: center; "
+                                                                                    align="center">
+                                                                                    <div
+                                                                                        style=" font-size: 0; text-align: left; direction: ltr; display: inline-block; vertical-align: top; width: 100%; ">
+                                                                                        <table border="0"
+                                                                                            cellpadding="0"
+                                                                                            cellspacing="0"
+                                                                                            role="presentation"
+                                                                                            style=" border-collapse: collapse; vertical-align: top; "
+                                                                                            width="100%" valign="top">
+                                                                                            <tbody>
+                                                                                                <tr>
+                                                                                                    <td align="center"
+                                                                                                        vertical-align="middle"
+                                                                                                        style=" border-collapse: collapse; font-size: 0; padding: 0; word-break: break-word; ">
+                                                                                                        <div data-gmail-template="text-slot"
+                                                                                                            style="margin-top: 20px; margin-bottom: 10px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; color: #5F6368; "
+                                                                                                            tabindex="1"
+                                                                                                            role="textbox"
+                                                                                                            class="anG TbVst">
+                                                                                                            <b>
+                                                                                                                Alvast
+                                                                                                                verder
+                                                                                                                vooruit
+                                                                                                                kijken?
+                                                                                                            </b>
+                                                                                                        </div>
+                                                                                                        <table
+                                                                                                            data-gmail-template="button"
+                                                                                                            border="0"
+                                                                                                            cellpadding="0"
+                                                                                                            cellspacing="0"
+                                                                                                            role="region"
+                                                                                                            style=" border-collapse: separate; background: #e06666; border-radius: 4px; line-height: 100%; padding: 8px 24px; "
+                                                                                                            contenteditable="false"
+                                                                                                            aria-label="Knop"
+                                                                                                            tabindex="-1"
+                                                                                                            class="anE TbVst Vrbnqb">
+                                                                                                            <tbody>
+                                                                                                                <tr>
+                                                                                                                    <td align="center"
+                                                                                                                        bgcolor="#e06666"
+                                                                                                                        role="presentation"
+                                                                                                                        style=" border-collapse: collapse; background: #e06666; border: none; cursor: auto; "
+                                                                                                                        valign="middle">
+                                                                                                                        <a href="https://www.sleutelstam.nl/agenda/"
+                                                                                                                            style=" display: inline-block; background: #e06666; color: #000000; font-family: georgia,serif; font-size: 14px; font-weight: bold; line-height: 1.4; letter-spacing: 0; margin: 0; text-decoration: none; text-transform: none; "
+                                                                                                                            target="_blank"
+                                                                                                                            draggable="false"
+                                                                                                                            class="dQm01 OIDgAc zDnK4d sLNPec"><span
+                                                                                                                                data-gmail-template="button-label"
+                                                                                                                                style="display: block; min-width: 10px"
+                                                                                                                                contenteditable="true"
+                                                                                                                                tabindex="1"
+                                                                                                                                class="anF">Groepsagenda</span></a>
+                                                                                                                    </td>
+                                                                                                                </tr>
+                                                                                                            </tbody>
+                                                                                                        </table>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <table align="center" border="0" cellpadding="0" cellspacing="0"
+                                                        role="presentation"
+                                                        style=" border-collapse: collapse; background-color: white; width: 100%; "
+                                                        bgcolor="white" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td
+                                                                    style=" direction: ltr; font-size: 0; padding: 0 5px; text-align: center; ">
+                                                                    <div data-gmail-template="section"
+                                                                        style=" font-size: 0; text-align: left; direction: ltr; display: inline-block; vertical-align: top; width: 100%; "
+                                                                        role="region" aria-label="Sectie"
+                                                                        class="Vrbnqb">
+                                                                        <table border="0" cellpadding="0"
+                                                                            cellspacing="0" role="presentation"
+                                                                            style="border-collapse: collapse; vertical-align: top"
+                                                                            width="100%" valign="top">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td data-gmail-template="divider"
+                                                                                        style=" border-collapse: collapse; font-size: 0; padding: 10px 25px; word-break: break-word; "
+                                                                                        tabindex="1" role="region"
+                                                                                        aria-label="Scheidingslijn"
+                                                                                        class="at8 TbVst">
+                                                                                        <p style=" display: block; margin: 0 auto; border-top: solid 1px #e8eaed; font-size: 1px; width: 100%; "
+                                                                                            width="100%"></p>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <table data-gmail-template="section" align="center" border="0"
+                                                        cellpadding="0" cellspacing="0" role="region"
+                                                        style=" border-collapse: collapse; background-color: #fff; width: 100%; "
+                                                        bgcolor="white" width="100%" aria-label="Sectie" class="Vrbnqb">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style=" border-collapse: collapse; direction: ltr; font-size: 0; padding: 10px 10%; text-align: center; "
+                                                                    align="center">
+                                                                    <table role="presentation" border="0"
+                                                                        cellpadding="0" cellspacing="0" align="center"
+                                                                        width="100%" style="border-collapse: collapse">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td style=" border-collapse: collapse; vertical-align: top; "
+                                                                                    valign="top">
+                                                                                    <div
+                                                                                        style=" font-size: 0; text-align: left; direction: ltr; display: inline-block; vertical-align: top; width: 100%; ">
+                                                                                        <table border="0"
+                                                                                            cellpadding="0"
+                                                                                            cellspacing="0"
+                                                                                            role="presentation"
+                                                                                            style=" border-collapse: collapse; vertical-align: top; "
+                                                                                            width="100%" valign="top">
+                                                                                            <tbody>
+                                                                                                <tr>
+                                                                                                    <td align="center"
+                                                                                                        style=" border-collapse: collapse; font-size: 0; word-break: break-word; ">
+                                                                                                        <table
+                                                                                                            width="100%"
+                                                                                                            border="0"
+                                                                                                            cellspacing="0"
+                                                                                                            cellpadding="0"
+                                                                                                            role="region"
+                                                                                                            data-gmail-template="theme-links"
+                                                                                                            aria-label="Links"
+                                                                                                            contenteditable="false"
+                                                                                                            tabindex="1"
+                                                                                                            class="arn TbVst Vrbnqb">
+                                                                                                            <tbody>
+                                                                                                                <tr>
+                                                                                                                    <td align="center"
+                                                                                                                        valign="top"
+                                                                                                                        data-gmail-template="theme-links-content">
+                                                                                                                        <div
+                                                                                                                            style="display: inline-block">
+                                                                                                                            <div style="display: inline-block"
+                                                                                                                                data-gmail-template="theme-link-container"
+                                                                                                                                class="Vrbnqb">
+                                                                                                                                <table
+                                                                                                                                    border="0"
+                                                                                                                                    cellspacing="0"
+                                                                                                                                    cellpadding="0"
+                                                                                                                                    role="presentation">
+                                                                                                                                    <tbody>
+                                                                                                                                        <tr>
+                                                                                                                                            <td
+                                                                                                                                                style="padding: 12px">
+                                                                                                                                                <a href="https://www.sleutelstam.nl/"
+                                                                                                                                                    target="_blank"
+                                                                                                                                                    style="line-height: 0; display: block"
+                                                                                                                                                    data-gmail-template="theme-link"
+                                                                                                                                                    draggable="false"
+                                                                                                                                                    class="dQm01 OIDgAc zDnK4d TbVst"><img
+                                                                                                                                                        src="https://fonts.gstatic.com/s/i/googlematerialicons/link/v16/gm_grey-24dp/2x/gm_link_gm_grey_24dp.png"
+                                                                                                                                                        alt="Linkicoon"
+                                                                                                                                                        width="24"
+                                                                                                                                                        height="24"
+                                                                                                                                                        data-gmail-template="theme-link-icon"
+                                                                                                                                                        class="lCsUvc"
+                                                                                                                                                        tabindex="1"
+                                                                                                                                                        draggable="false"></a>
+                                                                                                                                            </td>
+                                                                                                                                        </tr>
+                                                                                                                                    </tbody>
+                                                                                                                                </table>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                        <div
+                                                                                                                            style="display: inline-block">
+                                                                                                                            <div style="display: inline-block"
+                                                                                                                                data-gmail-template="theme-link-container"
+                                                                                                                                class="Vrbnqb">
+                                                                                                                                <table
+                                                                                                                                    border="0"
+                                                                                                                                    cellspacing="0"
+                                                                                                                                    cellpadding="0"
+                                                                                                                                    role="presentation">
+                                                                                                                                    <tbody>
+                                                                                                                                        <tr>
+                                                                                                                                            <td
+                                                                                                                                                style="padding: 12px">
+                                                                                                                                                <a href="https://www.facebook.com/sleutelstamleiden"
+                                                                                                                                                    target="_blank"
+                                                                                                                                                    style="line-height: 0; display: block"
+                                                                                                                                                    data-gmail-template="theme-link"
+                                                                                                                                                    draggable="false"
+                                                                                                                                                    class="dQm01 OIDgAc zDnK4d TbVst"><img
+                                                                                                                                                        src="https://fonts.gstatic.com/s/i/googlematerialicons/post_facebook/v11/gm_grey-24dp/2x/gm_post_facebook_gm_grey_24dp.png"
+                                                                                                                                                        alt="Facebook-icoon"
+                                                                                                                                                        width="24"
+                                                                                                                                                        height="24"
+                                                                                                                                                        data-gmail-template="theme-link-icon"
+                                                                                                                                                        class="lCsUvc"
+                                                                                                                                                        tabindex="1"
+                                                                                                                                                        draggable="false"></a>
+                                                                                                                                            </td>
+                                                                                                                                        </tr>
+                                                                                                                                    </tbody>
+                                                                                                                                </table>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                        <div
+                                                                                                                            style="display: inline-block">
+                                                                                                                            <div style="display: inline-block"
+                                                                                                                                data-gmail-template="theme-link-container"
+                                                                                                                                class="Vrbnqb">
+                                                                                                                                <table
+                                                                                                                                    border="0"
+                                                                                                                                    cellspacing="0"
+                                                                                                                                    cellpadding="0"
+                                                                                                                                    role="presentation">
+                                                                                                                                    <tbody>
+                                                                                                                                        <tr>
+                                                                                                                                            <td
+                                                                                                                                                style="padding: 12px">
+                                                                                                                                                <a href="https://www.instagram.com/sleutelstamleiden/"
+                                                                                                                                                    target="_blank"
+                                                                                                                                                    style="line-height: 0; display: block"
+                                                                                                                                                    data-gmail-template="theme-link"
+                                                                                                                                                    draggable="false"
+                                                                                                                                                    class="dQm01 OIDgAc zDnK4d TbVst"><img
+                                                                                                                                                        src="https://fonts.gstatic.com/s/i/googlematerialicons/post_instagram/v11/gm_grey-24dp/2x/gm_post_instagram_gm_grey_24dp.png"
+                                                                                                                                                        alt="Instagram-icoon"
+                                                                                                                                                        width="24"
+                                                                                                                                                        height="24"
+                                                                                                                                                        data-gmail-template="theme-link-icon"
+                                                                                                                                                        class="lCsUvc"
+                                                                                                                                                        tabindex="1"
+                                                                                                                                                        draggable="false"></a>
+                                                                                                                                            </td>
+                                                                                                                                        </tr>
+                                                                                                                                    </tbody>
+                                                                                                                                </table>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                    </td>
+                                                                                                                </tr>
+                                                                                                            </tbody>
+                                                                                                        </table>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td vertical-align="top"
+                                                                                                        style=" border-collapse: collapse; font-size: 0; word-break: break-word; ">
+                                                                                                        <div class="oEQ55c"
+                                                                                                            style=" font-size: 0; text-align: left; direction: ltr; display: inline-block; vertical-align: top; width: 50%; ">
+                                                                                                            <table
+                                                                                                                border="0"
+                                                                                                                cellpadding="0"
+                                                                                                                cellspacing="0"
+                                                                                                                role="presentation"
+                                                                                                                style=" border-collapse: collapse; vertical-align: top; "
+                                                                                                                width="100%"
+                                                                                                                valign="top">
+                                                                                                            </table>
+                                                                                                        </div>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td></td>
+            </tr>
+            <tr height="0">
+                <td colwidth="3"><span
+                        style="padding-top: 0; font-size: 0; line-height: 0; color: #e06666; background-color: #e06666; mso-hide: all; display: none; overflow: hidden; max-height: 0;"
+                        data-gmail-template="collapse-fix">z6lb2fb6y6sd</span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</div>
+</body>
