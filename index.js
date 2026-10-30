@@ -1,4 +1,53 @@
-let templatesLoaded = false;
+window.addEventListener("DOMContentLoaded", initialiseerMaandmail);
+
+window.addEventListener("beforeunload", function () {
+    localStorage.setItem("closed_content", document.getElementById("content").innerHTML);
+});
+
+async function initialiseerMaandmail() {
+
+    // Fetch templates.html and load them into the DOM
+    await loadTemplatesIntoDom();
+
+    // Locate buttons and content area
+    let loadBtn = document.getElementById("load_content");
+    let emergencyLoadBtn = document.getElementById("emergency_content");
+    let saveBtn = document.getElementById("save_content");
+    let content = document.getElementById("content");
+
+    // Save current content to localStorage when save button is clicked
+    saveBtn.addEventListener("click", () => {
+        if (window.confirm("Wil je de huidige inhoud opslaan? Dit overschrijft de huidige opgeslagen inhoud.")) {
+            localStorage.setItem("content", content.innerHTML);
+        }
+    });
+
+    // Load saved content from localStorage when load button is clicked
+    loadBtn.addEventListener("click", () => {
+        if (window.confirm("Wil je de opgeslagen maandmail inladen? Dit overschrijft de huidige inhoud.")) {
+            const savedContent = localStorage.getItem("content");
+            if (savedContent) {
+                content.innerHTML = savedContent;
+                bindRemoveButtons();
+            }
+        }
+    });
+
+    // Load content automatically saved on page close when emergency load button is clicked
+    emergencyLoadBtn.addEventListener("click", () => {
+        if (window.confirm("Wil je de meest recente afgesloten pagina inladen? Dit overschrijft de huidige inhoud.")) {
+            const emergencyContent = localStorage.getItem("closed_content");
+            if (emergencyContent) {
+                content.innerHTML = emergencyContent;
+                bindRemoveButtons();
+            }
+        }
+    });
+    // Populate default blocks on page load
+    // (1x opkomst, 1x activiteit SSN, 1x commissie mededeling, 1x bestuur mededeling, 1x overig, 1x verjaardag)
+    populateDefaultBlocks();
+
+}
 
 async function loadTemplatesIntoDom() {
     const response = await fetch("templates.html", { cache: "no-store" });
@@ -13,15 +62,9 @@ async function loadTemplatesIntoDom() {
         }
         document.body.appendChild(template);
     });
-
-    templatesLoaded = true;
 }
 
-async function ensureTemplatesLoaded() {
-    if (!templatesLoaded) {
-        await loadTemplatesIntoDom();
-    }
-}
+
 
 function bindRemoveButtons() {
     document.querySelectorAll(".remove-button").forEach((button) => {
@@ -40,61 +83,10 @@ function populateDefaultBlocks() {
     addVerjaardag();
 }
 
-async function init() {
-    document.querySelectorAll(".add-button").forEach((button) => {
-        button.disabled = true;
-    });
 
-    await ensureTemplatesLoaded();
 
-    let loadBtn = document.getElementById("load_content");
-    let emergencyLoadBtn = document.getElementById("emergency_content");
-    let saveBtn = document.getElementById("save_content");
-    let content = document.getElementById("content");
 
-    saveBtn.addEventListener("click", () => {
-        if (window.confirm("Wil je de huidige inhoud opslaan? Dit overschrijft de huidige opgeslagen inhoud.")) {
-            localStorage.setItem("content", content.innerHTML);
-        }
-    });
 
-    loadBtn.addEventListener("click", () => {
-        if (window.confirm("Wil je de opgeslagen maandmail inladen? Dit overschrijft de huidige inhoud.")) {
-            const savedContent = localStorage.getItem("content");
-            if (savedContent) {
-                content.innerHTML = savedContent;
-                bindRemoveButtons();
-            }
-        }
-    });
-
-    emergencyLoadBtn.addEventListener("click", () => {
-        if (window.confirm("Wil je de meest recente afgesloten pagina inladen? Dit overschrijft de huidige inhoud.")) {
-            const emergencyContent = localStorage.getItem("closed_content");
-            if (emergencyContent) {
-                content.innerHTML = emergencyContent;
-                bindRemoveButtons();
-            }
-        }
-    });
-
-    populateDefaultBlocks();
-
-    document.querySelectorAll(".add-button").forEach((button) => {
-        button.disabled = false;
-    });
-}
-
-window.addEventListener("DOMContentLoaded", function () {
-    init().catch((error) => {
-        console.error(error);
-        alert("Initialisatie mislukt. Controleer templates.html.");
-    });
-});
-
-window.addEventListener("beforeunload", function () {
-    localStorage.setItem("closed_content", document.getElementById("content").innerHTML);
-});
 
 
 
