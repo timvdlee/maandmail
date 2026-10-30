@@ -2,190 +2,9 @@
 <!-- De stukken voor engelse maandmail staan in comments (zowel index.html als index.js) -->
 <head>
     <title>Maandmail Bouwer</title>
+    <link rel="stylesheet" href="index.css">
     <script src="index.js"></script>
-    <style>
-        .bestuurKleur {
-            color: #482a3a;
-        }
 
-        .button-row {
-            display: flex;
-        }
-
-        .button-row button {
-            margin-inline: .2em;
-            border: none;
-            padding: 5px;
-        }
-
-        .button-row .add-button {
-            background-color: lightgreen;
-        }
-
-        .button-row button:hover {
-            background-image: linear-gradient(rgb(0 0 0/20%) 0 0);
-        }
-
-        .button-row .remove-button {
-            background-color: lightcoral;
-        }
-
-        .FancyButton {
-            background-color: lightgray;
-            border-style: dashed;
-            border-width: 2px;
-            border-color: black;
-            padding: 5px;
-        }
-    </style>
-    <template id="opkomst-template">
-        <div data-gmail-template="text-slot"
-            style="margin-bottom: 20px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
-            tabindex="1" role="textbox" class="anG TbVst">
-            <div style="margin-bottom: 10px;">
-                <div contenteditable="true">
-                    <b style="letter-spacing: 0px;">Opkomst
-                        door
-                        *naam*
-                        &amp;
-                        *naam*</b><br>
-                </div>
-                <div contenteditable="true">
-                    <b>
-                        <font size="2">
-                            *dag*
-                            *maand*
-                            20:00
-                        </font>
-                    </b>
-                </div>
-            </div>
-            <div contenteditable="true">
-                Stukje
-                over
-                de
-                opkomst.
-            </div>
-        </div>
-    </template>
-    <template id="borrel-template">
-        <div data-gmail-template="text-slot"
-            style="margin-bottom: 20px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
-            tabindex="1" role="textbox" class="anG TbVst">
-            <div style="margin-bottom: 10px;" >
-                <div contenteditable="true">
-                    <b style="letter-spacing: 0px;">Borrel
-                        bij
-                        *naam*</b><br>
-                </div>
-                <div contenteditable="true">
-                    <b>
-                        <font size="2">
-                            *dag*
-                            *maand*
-                            20:00
-                        </font>
-                    </b>
-                </div>
-            </div>
-            <div contenteditable="true">
-                Stukje
-                over
-                de
-                borrel.
-            </div>
-        </div>
-    </template>
-    <template id="activiteit-template">
-        <div data-gmail-template="text-slot"
-            style="margin-bottom: 20px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
-            tabindex="1" role="textbox" class="anG TbVst">
-            <div style="margin-bottom: 10px;">
-                <div contenteditable="true">
-                    <b style="letter-spacing: 0px;">*activiteit*</b><br>
-                </div>
-                <div contenteditable="true">
-                    <b>
-                        <font size="2">
-                            *dag*
-                            *maand*
-                            *tijd*
-                        </font>
-                    </b>
-                </div>
-            </div>
-            <div contenteditable="true">
-                Stukje
-                over
-                de
-                activiteit.
-            </div>
-        </div>
-    </template>
-    <template id="mededeling-template">
-        <div data-gmail-template="text-slot"
-            style="margin-bottom: 20px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
-            tabindex="1" role="textbox" class="anG TbVst">
-            <div style="margin-bottom: 10px;" contenteditable="true">
-                <b style="letter-spacing: 0px;">*mededeling
-                    titel*</b>
-            </div>
-            <div contenteditable="true">
-                Mededeling
-            </div>
-        </div>
-    </template>
-    <template id="templateOverig">
-        <div id="mededelingOverig" data-id="7">
-            <div data-gmail-template="text-slot"
-            style=" font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
-            tabindex="1"
-            role="textbox"
-            class="anG TbVst">
-            <hr>
-            <div contenteditable="true"
-                style="text-align: center;">
-                <font class="bestuurKleur"
-                    size="4">
-                    <b>*Overig*</b>
-                </font>
-            </div>
-            <hr>
-                                                                                                                                </div>
-                                                                                                                                <div
-                                                                                                                                data-id="99"
-                >
-            <div data-gmail-template="text-slot"
-                style="margin-bottom: 20px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
-                tabindex="1"
-                role="textbox"
-                class="anG TbVst"
-                    >
-                <div style="margin-bottom: 10px;"
-                    contenteditable="true">
-                    <b
-                        style="letter-spacing: 0px;">*Voeg hier een titel toe*</b>
-                </div>
-                <div
-                    contenteditable="true">
-                    Hier kan je schrijven wat je wilt
-                </div>
-            </div>
-        </div>
-    </template>
-    <template id="verjaardag-template">
-        <div data-gmail-template="text-slot"
-        style="margin-bottom: 3px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
-        tabindex="1"
-        role="textbox"
-        class="anG TbVst"
-        data-id="5">
-        <div>
-            <b contenteditable="true"
-            style="letter-spacing: 0px;">00-00</b> <span contenteditable="true">Naam</span>
-        </div>
-    </div>
-    </template>
 </head>
 
 <body>
@@ -214,16 +33,12 @@
                     <button class="add-button" type="button" onclick="addOpkomst()">Opkomst toevoegen</button>
                     <button class="add-button" type="button" onclick="addBorrel()">Borrel toevoegen</button>
                     <button class="add-button" type="button" onclick="addActiviteitSSL()">Activiteit toevoegen</button>
-                    <button class="remove-button" type="button" data-id="1">Opkomst
-                        verwijderen</button>
-                    <button class="remove-button" type="button" data-id="2">Borrel verwijderen</button>
                 </td>
             </tr>
             <tr>
                 <td>Activiteiten van andere studentenstammen:</td>
                 <td id="ssn-knoppen" class="button-row">
                     <button class="add-button" type="button" onclick="addActiviteitSSN()">Activiteit toevoegen</button>
-                    <button class="remove-button" type="button" data-id="3">Activiteit verwijderen</button>
                 </td>
             </tr>
             <tr>
@@ -231,7 +46,6 @@
                 <td id="com-knoppen" class="button-row">
                     <button class="add-button" type="button" onclick="addCommissieMededeling()">Mededeling
                         toevoegen</button>
-                    <button class="remove-button" type="button" data-id="4">Mededeling verwijderen</button>
                 </td>
             </tr>
             <tr>
@@ -239,21 +53,18 @@
                 <td id="bes-knoppen" class="button-row">
                     <button class="add-button" type="button" onclick="addBestuurMededeling()">Mededeling
                         toevoegen</button>
-                    <button class="remove-button" type="button" data-id="5">Mededeling verwijderen</button>
                 </td>
             </tr>
             <tr>
                 <td>Overig:</td>
                 <td id="ovr-knoppen" class="button-row">
                     <button class="add-button" type="button" onclick="addOverig()">Sectie overig toevoegen</button>
-                    <button class="remove-button" type="button" data-id="7">Sectie overig verwijderen</button>
                 </td>
             </tr>
             <tr>
                 <td>Verjaardagen:</td>
                 <td id="ver-knoppen" class="button-row">
                     <button class="add-button" type="button" onclick="addVerjaardag()">Verjaardag toevoegen</button>
-                    <button class="remove-button" type="button" data-id="6">Verjaardag verwijderen</button>
                 </td>
             </tr>
             <tr>
@@ -498,74 +309,7 @@
                                                                                                                             <hr>
                                                                                                                         </div>
                                                                                                                         <div
-                                                                                                                            id="ssl-activiteiten">
-                                                                                                                            <div data-gmail-template="text-slot"
-                                                                                                                                style="margin-bottom: 20px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
-                                                                                                                                tabindex="1"
-                                                                                                                                role="textbox"
-                                                                                                                                class="anG TbVst"
-                                                                                                                                data-id="1">
-                                                                                                                                <div style="margin-bottom: 10px;">
-                                                                                                                                    <div contenteditable="true">
-                                                                                                                                        <b
-                                                                                                                                            style="letter-spacing: 0px;">Opkomst
-                                                                                                                                            door
-                                                                                                                                            *naam*
-                                                                                                                                            &amp;
-                                                                                                                                            *naam*</b><br>
-                                                                                                                                    </div>
-                                                                                                                                    <div contenteditable="true">
-                                                                                                                                        <b>
-                                                                                                                                            <font
-                                                                                                                                                size="2">
-                                                                                                                                                *dag*
-                                                                                                                                                *maand*
-                                                                                                                                                20:00
-                                                                                                                                            </font>
-                                                                                                                                        </b>
-                                                                                                                                    </div>
-                                                                                                                                </div>
-                                                                                                                                <div
-                                                                                                                                    contenteditable="true">
-                                                                                                                                    Stukje
-                                                                                                                                    over
-                                                                                                                                    de
-                                                                                                                                    opkomst.
-                                                                                                                                </div>
-                                                                                                                            </div>
-                                                                                                                            <div data-gmail-template="text-slot"
-                                                                                                                                style="margin-bottom: 20px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
-                                                                                                                                tabindex="1"
-                                                                                                                                role="textbox"
-                                                                                                                                class="anG TbVst"
-                                                                                                                                data-id="2">
-                                                                                                                                <div style="margin-bottom: 10px;">
-                                                                                                                                    <div contenteditable="true">
-                                                                                                                                        <b
-                                                                                                                                            style="letter-spacing: 0px;">Borrel
-                                                                                                                                            bij
-                                                                                                                                            *naam*</b><br>
-                                                                                                                                    </div>
-                                                                                                                                    <div contenteditable="true">
-                                                                                                                                        <b>
-                                                                                                                                            <font
-                                                                                                                                                size="2">
-                                                                                                                                                *dag*
-                                                                                                                                                *maand*
-                                                                                                                                                20:00
-                                                                                                                                            </font>
-                                                                                                                                        </b>
-                                                                                                                                    </div>
-                                                                                                                                </div>
-                                                                                                                                <div
-                                                                                                                                    contenteditable="true">
-                                                                                                                                    Stukje
-                                                                                                                                    over
-                                                                                                                                    de
-                                                                                                                                    borrel.
-                                                                                                                                </div>
-                                                                                                                            </div>
-                                                                                                                        </div>
+                                                                                                                            id="ssl-activiteiten"></div>
                                                                                                                         <div data-gmail-template="text-slot"
                                                                                                                             style=" font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
                                                                                                                             tabindex="1"
@@ -585,38 +329,7 @@
                                                                                                                             <hr>
                                                                                                                         </div>
                                                                                                                         <div
-                                                                                                                            id="ssn-activiteiten">
-                                                                                                                            <div data-gmail-template="text-slot"
-                                                                                                                                style="margin-bottom: 20px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
-                                                                                                                                tabindex="1"
-                                                                                                                                role="textbox"
-                                                                                                                                class="anG TbVst"
-                                                                                                                                data-id="3">
-                                                                                                                                <div style="margin-bottom: 10px;">
-                                                                                                                                    <div contenteditable="true">
-                                                                                                                                        <b
-                                                                                                                                            style="letter-spacing: 0px;">*activiteit*</b><br>
-                                                                                                                                    </div>
-                                                                                                                                    <div contenteditable="true">
-                                                                                                                                        <b>
-                                                                                                                                            <font
-                                                                                                                                                size="2">
-                                                                                                                                                *dag*
-                                                                                                                                                *maand*
-                                                                                                                                                *tijd*
-                                                                                                                                            </font>
-                                                                                                                                        </b>
-                                                                                                                                    </div>
-                                                                                                                                </div>
-                                                                                                                                <div
-                                                                                                                                    contenteditable="true">
-                                                                                                                                    Stukje
-                                                                                                                                    over
-                                                                                                                                    de
-                                                                                                                                    activiteit.
-                                                                                                                                </div>
-                                                                                                                            </div>
-                                                                                                                        </div>
+                                                                                                                            id="ssn-activiteiten"></div>
                                                                                                                         <div data-gmail-template="text-slot"
                                                                                                                             style=" font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
                                                                                                                             tabindex="1"
@@ -635,25 +348,7 @@
                                                                                                                             <hr>
                                                                                                                         </div>
                                                                                                                         <div
-                                                                                                                            id="commissie-mededelingen">
-                                                                                                                            <div data-gmail-template="text-slot"
-                                                                                                                                style="margin-bottom: 20px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
-                                                                                                                                tabindex="1"
-                                                                                                                                role="textbox"
-                                                                                                                                class="anG TbVst"
-                                                                                                                                data-id="4">
-                                                                                                                                <div style="margin-bottom: 10px;"
-                                                                                                                                    contenteditable="true">
-                                                                                                                                    <b
-                                                                                                                                        style="letter-spacing: 0px;">*mededeling
-                                                                                                                                        titel*</b>
-                                                                                                                                </div>
-                                                                                                                                <div
-                                                                                                                                    contenteditable="true">
-                                                                                                                                    Mededeling
-                                                                                                                                </div>
-                                                                                                                            </div>
-                                                                                                                        </div>
+                                                                                                                            id="commissie-mededelingen"></div>
                                                                                                                         <div data-gmail-template="text-slot"
                                                                                                                             style="margin-bottom: 20px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
                                                                                                                             tabindex="1"
@@ -698,65 +393,9 @@
                                                                                                                             <hr>
                                                                                                                         </div>
                                                                                                                         <div
-                                                                                                                            id="bestuur-mededelingen">
-                                                                                                                            <div data-gmail-template="text-slot"
-                                                                                                                                style="margin-bottom: 20px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
-                                                                                                                                tabindex="1"
-                                                                                                                                role="textbox"
-                                                                                                                                class="anG TbVst"
-                                                                                                                                data-id="5">
-                                                                                                                                <div style="margin-bottom: 10px;"
-                                                                                                                                    contenteditable="true">
-                                                                                                                                    <b
-                                                                                                                                        style="letter-spacing: 0px;">*mededeling
-                                                                                                                                        titel*</b>
-                                                                                                                                </div>
-                                                                                                                                <div
-                                                                                                                                    contenteditable="true">
-                                                                                                                                    Mededeling
-                                                                                                                                </div>
-                                                                                                                            </div>
-                                                                                                                        </div>
+                                                                                                                            id="bestuur-mededelingen"></div>
 
-                                                                                                                        <div id="overig-mededelingen">
-                                                                                                                            <div id="mededelingOverig" data-id="7">
-                                                                                                                                <div data-gmail-template="text-slot"
-                                                                                                                                style=" font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
-                                                                                                                                tabindex="1"
-                                                                                                                                role="textbox"
-                                                                                                                                class="anG TbVst">
-                                                                                                                                <hr>
-                                                                                                                                <div contenteditable="true"
-                                                                                                                                    style="text-align: center;">
-                                                                                                                                    <font class="bestuurKleur"
-                                                                                                                                        size="4">
-                                                                                                                                        <b>*Overig*</b>
-                                                                                                                                    </font>
-                                                                                                                                </div>
-                                                                                                                                <hr>
-                                                                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                                                                    <div
-                                                                                                                                                                                                                                                    data-id="99"
-                                                                                                                                    >
-                                                                                                                                <div data-gmail-template="text-slot"
-                                                                                                                                    style="margin-bottom: 20px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
-                                                                                                                                    tabindex="1"
-                                                                                                                                    role="textbox"
-                                                                                                                                    class="anG TbVst"
-                                                                                                                                        >
-                                                                                                                                    <div style="margin-bottom: 10px;"
-                                                                                                                                        contenteditable="true">
-                                                                                                                                        <b
-                                                                                                                                            style="letter-spacing: 0px;">*Voeg hier een titel toe*</b>
-                                                                                                                                    </div>
-                                                                                                                                    <div
-                                                                                                                                        contenteditable="true">
-                                                                                                                                        Hier kan je schrijven wat je wilt
-                                                                                                                                    </div>
-                                                                                                                                </div>
-                                                                                                                            </div>
-                                                                                                                                                                                                                                                </div>
-                                                                                                                        </div>
+                                                                                                                        <div id="overig-mededelingen"></div>
 
 
                                                                                                                         <div data-gmail-template="text-slot"
@@ -783,20 +422,7 @@
                                                                                                                                 <span contenteditable="true">De volgende leden zijn jarig de komende maand:</span>
                                                                                                                             </div>
                                                                                                                         </div>
-                                                                                                                        <div id="verjaardagen">
-                                                                                                                            <div data-gmail-template="text-slot"
-                                                                                                                                style="margin-bottom: 3px; font-family: georgia,serif; font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.4; text-align: left; color: #5F6368; "
-                                                                                                                                tabindex="1"
-                                                                                                                                role="textbox"
-                                                                                                                                class="anG TbVst"
-                                                                                                                                data-id="6">
-                                                                                                                                <div
-                                                                                                                                    >
-                                                                                                                                        <b contenteditable="true"
-                                                                                                                                        style="letter-spacing: 0px;">00-00</b> <span contenteditable="true">Naam</span>
-                                                                                                                                </div>
-                                                                                                                            </div>
-                                                                                                                        </div>
+                                                                                                                        <div id="verjaardagen"></div>
                                                                                                                     </td>
                                                                                                                 </tr>
                                                                                                             </tbody>

@@ -1,0 +1,33 @@
+        .bestuurKleur {
+            color: #482a3a;
+        }
+
+        .button-row {
+            display: flex;
+        }
+
+        .button-row button {
+            margin-inline: .2em;
+            border: none;
+            padding: 5px;
+        }
+
+        .button-row .add-button {
+            background-color: lightgreen;
+        }
+
+        .button-row button:hover {
+            background-image: linear-gradient(rgb(0 0 0/20%) 0 0);
+        }
+
+        .button-row .remove-button {
+            background-color: lightcoral;
+        }
+
+        .FancyButton {
+            background-color: lightgray;
+            border-style: dashed;
+            border-width: 2px;
+            border-color: black;
+            padding: 5px;
+        }
