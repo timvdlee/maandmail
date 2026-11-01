@@ -5,7 +5,7 @@
             tabindex="1" role="textbox">
             <div style="margin-bottom: 10px;">
                 <div contenteditable="true">
-                    <b style="letter-spacing: 0px;">Opkomst
+                    <b id="opkomst-titel" style="letter-spacing: 0px;">Opkomst
                         door
                         *naam*
                         &amp;
@@ -13,7 +13,7 @@
                 </div>
                 <div contenteditable="true">
                     <b>
-                        <font size="2">
+                        <font size="2" id ="opkomst-datum">
                             *dag*
                             *maand*
                             20:00
@@ -21,11 +21,8 @@
                     </b>
                 </div>
             </div>
-            <div contenteditable="true">
-                Stukje
-                over
-                de
-                opkomst.
+            <div id="opkomst-beschrijving" contenteditable="true">
+                *Hier kan je als bestuur een stukje schrijven over de opkomst of activiteit.*
             </div>
         </div>
     </template>

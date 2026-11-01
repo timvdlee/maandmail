@@ -16,6 +16,10 @@
             background-color: lightgreen;
         }
 
+        .auto-button {
+             background-color: yellow;
+        }
+
         .button-row button:hover {
             background-image: linear-gradient(rgb(0 0 0/20%) 0 0);
         }

@@ -47,7 +47,108 @@ async function initialiseerMaandmail() {
     // (1x opkomst, 1x activiteit SSN, 1x commissie mededeling, 1x bestuur mededeling, 1x overig, 1x verjaardag)
     populateDefaultBlocks();
 
+    automaticMonthDetection();
+
 }
+
+
+
+function automaticMonthDetection() {
+    let monthElement = document.getElementById("maandMarker");
+    let now = new Date();
+    let month = now.toLocaleString("nl-NL", { month: "long" });
+    monthElement.innerHTML = "Maandmail " + month;
+}
+
+async function addOpkomstAutomatic() {
+    if (!confirm("Opkomsten zullen automatisch worden opgehaald vanuit de groepsagenda. Alle huidige opkomsten in de maandmail zullen worden verwijderd. Wil je doorgaan?")) {
+        return;
+    }
+    const ssl_knoppen = document.getElementById("ssl-knoppen");
+    // Verwijder alle huidige opkomsten
+    ssl_knoppen.querySelectorAll(".remove-button").forEach(e => e.click());
+
+    const activiteiten = await haalActiviteitenHuidigeMaandOp();
+    for (const activiteit of activiteiten) {
+        let clone = addOpkomst();
+
+        clone.querySelector("#opkomst-titel").textContent = activiteit.titel;
+        if (!activiteit.isHeleDag) {
+            clone.querySelector("#opkomst-datum").textContent = activiteit.singleDateDesc + " " + activiteit.tijd;
+        }else if (activiteit.isHeleDag && activiteit.singleDay) {
+            clone.querySelector("#opkomst-datum").textContent = activiteit.singleDateDesc;
+        }else if (activiteit.isHeleDag && activiteit.multipleDay) {
+            clone.querySelector("#opkomst-datum").textContent = activiteit.multiDateDesc;
+        }
+    }
+}
+
+async function haalActiviteitenHuidigeMaandOp() {
+    const API_KEY = 'AIzaSyAMCRidISql-5TNZFlfJZ9KiqyjXtRjMu4';
+    const CALENDAR_ID = 'studentensleutelstam@gmail.com';
+
+
+    // 1. Bereken de start- en einddatum van de HUIDIGE maand
+    const nu = new Date();
+
+  // Eerste dag van de huidige maand (00:00:00)
+    const eersteDag = new Date(nu.getFullYear(), nu.getMonth(), 1, 0, 0, 0);
+    
+    // Gebruik de eerste dag van de volgende maand als EXCLUSIEVE bovengrens.
+    // Dit voorkomt timezone-randproblemen en is in lijn met de Calendar API (timeMax exclusief).
+    const eersteDagVolgendeMaand = new Date(nu.getFullYear(), nu.getMonth() + 1, 1, 0, 0, 0);
+
+    const timeMin = eersteDag.toISOString();
+    const timeMax = eersteDagVolgendeMaand.toISOString();
+
+    // 2. Bouw de Google Calendar API URL
+    const url = new URL(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(CALENDAR_ID)}/events`);
+    url.searchParams.set('key', API_KEY);
+    url.searchParams.set('timeMin', timeMin);
+    url.searchParams.set('timeMax', timeMax);
+    url.searchParams.set('singleEvents', 'true');
+    url.searchParams.set('orderBy', 'startTime');
+    url.searchParams.set('maxResults', '2500');
+
+
+
+    const response = await fetch(url.toString());
+
+    
+    const data = await response.json();
+    const items = Array.isArray(data.items) ? data.items : [];
+    
+    // 3. Map de Google data naar een schoon, bruikbaar JSON-lijstje
+    const opgeschoondeActiviteiten = items.map(event => {
+     // Soms is een evenement een 'all-day event' (zonder tijd), dan gebruiken we event.start.date
+    const isHeleDag = !event.start.dateTime;
+    const startTijdstip = new Date(event.start.dateTime || event.start.date);
+    const eindTijdstip = new Date(event.end.dateTime || event.end.date);
+    const exactly24h = (eindTijdstip - startTijdstip) === 24 * 60 * 60 * 1000; // Check of het precies 24 uur is
+    const moreThan24h = (eindTijdstip - startTijdstip) > 24 * 60 * 60 * 1000; // Check of het meer dan 24 uur is
+
+    return {
+        titel: event.summary || 'Geen titel',
+        isHeleDag: isHeleDag,
+        // Datum formatteren voor je HTML template (bijv. "14 november")
+        singleDateDesc: startTijdstip.toLocaleDateString('nl-NL', { day: 'numeric', month: 'long' }),
+        // Datum bereik formatteren (bijv. "14 t/m 15 november")
+        multiDateDesc: startTijdstip.toLocaleDateString('nl-NL', { day: 'numeric'}) + " t/m " + eindTijdstip.toLocaleDateString('nl-NL', { day: 'numeric', month: 'long' }),
+        // Tijd formatteren (bijv. "20:00")
+        tijd: isHeleDag ? 'Hele dag' : startTijdstip.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' }),
+        // Ruwe datums voor het geval je er zelf nog mee wilt rekenen
+        rawStart: startTijdstip,
+        rawEnd: eindTijdstip,
+        singleDay : exactly24h,
+        multipleDay : moreThan24h,
+    };
+});
+
+    return opgeschoondeActiviteiten;
+
+}
+
+
 
 async function loadTemplatesIntoDom() {
     const response = await fetch("templates.html", { cache: "no-store" });
@@ -104,24 +205,10 @@ function copyMaandmail() {
 
 function addTemplate(id, template, element_dest) {
     let htmlTemplate = document.getElementById(template);
-    if (!htmlTemplate) {
-        ensureTemplatesLoaded()
-            .then(() => {
-                const loadedTemplate = document.getElementById(template);
-                let destAfterLoad = document.getElementById(element_dest);
-                let cloneAfterLoad = loadedTemplate.content.cloneNode(true);
-                cloneAfterLoad.firstElementChild.dataset.id = id;
-                destAfterLoad.appendChild(cloneAfterLoad);
-            })
-            .catch((error) => {
-                console.error(error);
-                alert("Template kon niet geladen worden. Herlaad de pagina.");
-            });
-        return;
-    }
     let dest = document.getElementById(element_dest);
     let clone = htmlTemplate.content.cloneNode(true);
     clone.firstElementChild.dataset.id = id;
+    clone.firstElementChild.id = id; // Assign the unique ID to the clone
     dest.appendChild(clone);
 }
 
@@ -143,6 +230,7 @@ function addOpkomst() {
     let id = crypto.randomUUID();
     addTemplate(id, "opkomst-template", "ssl-activiteiten");
     addRemoveButton(id, "ssl-knoppen", "Opkomst verwijderen");
+    return document.getElementById(id); // Return the clone for further manipulation if needed
 }
 
 function addBorrel() {
