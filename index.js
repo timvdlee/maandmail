@@ -267,6 +267,11 @@ function addVerjaardag() {
     let id = crypto.randomUUID();
     addTemplate(id, "verjaardag-template", "verjaardagen");
     addRemoveButton(id, "ver-knoppen", "Verjaardag verwijderen");
+    let verjaardagObject = document.getElementById(id);
+    let now = new Date();
+    let monthNumeric = now.toLocaleString("nl-NL", { month: "numeric" });
+    verjaardagObject.querySelector('.verjaardagObj').textContent = `xx-${monthNumeric}`;
+    return document.getElementById(id); // Return the clone for further manipulation if needed
 }
 
 function addOverig() {
