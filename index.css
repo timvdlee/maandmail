@@ -20,6 +20,11 @@
              background-color: yellow;
         }
 
+        .img-button {
+             background-color: rgb(131, 224, 255);
+        }
+
+
         .button-row button:hover {
             background-image: linear-gradient(rgb(0 0 0/20%) 0 0);
         }

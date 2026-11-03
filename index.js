@@ -1,6 +1,12 @@
 window.addEventListener("DOMContentLoaded", initialiseerMaandmail);
 
+const MAX_IMAGE_SOURCE_SIZE = 1200;
+const MAX_IMAGE_DISPLAY_WIDTH = 600;
+let pendingImageUpload = null;
+
 window.addEventListener("beforeunload", function () {
+    let img_knoppen = document.getElementById("img-knoppen");
+    img_knoppen.querySelectorAll(".remove-button").forEach(e => e.click());
     localStorage.setItem("closed_content", document.getElementById("content").innerHTML);
 });
 
@@ -8,6 +14,8 @@ async function initialiseerMaandmail() {
 
     // Fetch templates.html and load them into the DOM
     await loadTemplatesIntoDom();
+
+    document.getElementById("image-input").addEventListener("change", handleImageUpload);
 
     // Locate buttons and content area
     let loadBtn = document.getElementById("load_content");
@@ -18,6 +26,9 @@ async function initialiseerMaandmail() {
     // Save current content to localStorage when save button is clicked
     saveBtn.addEventListener("click", () => {
         if (window.confirm("Wil je de huidige inhoud opslaan? Dit overschrijft de huidige opgeslagen inhoud.")) {
+            let img_knoppen = document.getElementById("img-knoppen");
+            img_knoppen.querySelectorAll(".remove-button").forEach(e => e.click());
+
             localStorage.setItem("content", content.innerHTML);
         }
     });
@@ -264,6 +275,67 @@ function addRemoveButton(id, button_dest, button_text) {
 
 function removeAllWithId(element) {
     document.querySelectorAll(`[data-id="${element.dataset.id}"]`).forEach(e => e.remove());
+}
+
+function addImage() {
+    let imgInsertSelector = document.getElementById("imgInsertLocationSelector");
+    element_dest = imgInsertSelector.value;
+    pendingImageUpload = {
+        id: crypto.randomUUID(),
+        element_dest
+    };
+
+    const input = document.getElementById("image-input");
+    input.value = "";
+    input.click();
+}
+
+function handleImageUpload(event) {
+    const input = event.target;
+    const upload = pendingImageUpload;
+    const file = input.files[0];
+    pendingImageUpload = null;
+    input.value = "";
+
+    if (!upload || !file) {
+        return;
+    }
+
+    const image = new Image();
+    const objectUrl = URL.createObjectURL(file);
+    image.onload = () => {
+        URL.revokeObjectURL(objectUrl);
+
+        const scale = Math.min(1, MAX_IMAGE_SOURCE_SIZE / Math.max(image.naturalWidth, image.naturalHeight));
+        const width = Math.max(1, Math.round(image.naturalWidth * scale));
+        const height = Math.max(1, Math.round(image.naturalHeight * scale));
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const context = canvas.getContext("2d");
+        if (!context) {
+            alert("De afbeelding kon niet worden verwerkt.");
+            return;
+        }
+        context.drawImage(image, 0, 0, width, height);
+
+        const img = document.createElement("img");
+        img.id = upload.id;
+        img.dataset.id = upload.id;
+        img.classList.add("uploaded-image");
+        img.src = canvas.toDataURL("image/png");
+        img.alt = file.name;
+        img.width = Math.min(width, MAX_IMAGE_DISPLAY_WIDTH);
+        img.style.maxWidth = "100%";
+        img.style.height = "auto";
+        document.getElementById(upload.element_dest).appendChild(img);
+        addRemoveButton(upload.id, "img-knoppen", `Verwijder ${upload.element_dest} - ${file.name}`);
+    };
+    image.onerror = () => {
+        URL.revokeObjectURL(objectUrl);
+        alert("De afbeelding kon niet worden geladen.");
+    };
+    image.src = objectUrl;
 }
 
 function addOpkomst() {

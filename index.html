@@ -12,6 +12,7 @@
 </head>
 
 <body>
+
     <!-- 
     De 'Save' knop slaat de huidige gegevens lokaal op in je browser. 
     De 'Load' knop haalt de lokaal opgeslagen gegevens op en laadt deze in de applicatie. 
@@ -22,11 +23,13 @@
                 De 'Load' knop haalt de lokaal opgeslagen maandmail op en laadt deze in. <br>
                 De 'Emergency Load' knop haalt de meest recent afgesloten pagina op en laadt deze in. <br>
                 Deze maandmail wordt alleen lokaal opgeslagen en is niet toegankelijk voor anderen. <br>
+                Het opslaan van de maandmail ondersteund afbeeldingen nog niet. Deze worden verwijderd bij het opslaan. <br>
             </p>
             <button id="save_content" class="FancyButton">Save</button>
             <button id="load_content" class="FancyButton">Load</button>
             <button id="emergency_content" class="FancyButton">Emergency Load</button>
         <br><br>
+    <input id="image-input" type="file" accept="image/*" hidden>
 
     <div id="content">
     <div style="position: sticky; top: 0; width: 100%; background-color: white; border-style: solid; border-width: 0 0 1px 0;">
@@ -57,8 +60,7 @@
             <tr>
                 <td>Mededelingen van commissies:</td>
                 <td id="com-knoppen" class="button-row">
-                    <button class="add-button" type="button" onclick="addCommissieMededeling()">Mededeling
-                        toevoegen</button>
+                    <button class="add-button" type="button" onclick="addCommissieMededeling()">Mededeling toevoegen</button>
                 </td>
             </tr>
             <tr>
@@ -78,6 +80,20 @@
                 <td>Verjaardagen:</td>
                 <td id="ver-knoppen" class="button-row">
                     <button class="add-button" type="button" onclick="addVerjaardag()">Verjaardag toevoegen</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Afbeeldingen:</td>
+                <td id="img-knoppen" class="button-row">
+                    <button class="img-button" type="button" onclick="addImage()">Afbeelding toevoegen in:</button>
+                    <select name="imgInsertLocation" id="imgInsertLocationSelector">
+                        <option value="ssl-activiteiten">Sleutelstam activiteiten</option>
+                        <option value="ssn-activiteiten">Activiteiten van andere studentenstammen</option>
+                        <option value="commissie-mededelingen">Commissie mededelingen</option>
+                        <option value="bestuur-mededelingen">Bestuur mededelingen</option>
+                        <option value="overig-mededelingen">Overig</option>
+                        <option value="verjaardagen">Verjaardagen</option>
+                    </select>
                 </td>
             </tr>
             <tr>
