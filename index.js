@@ -45,18 +45,51 @@ async function initialiseerMaandmail() {
     });
     // Populate default blocks on page load
     // (1x opkomst, 1x activiteit SSN, 1x commissie mededeling, 1x bestuur mededeling, 1x overig, 1x verjaardag)
+    populateMonthSelector();
+    
     populateDefaultBlocks();
-
+    
     automaticMonthDetection();
+}
+
+function populateMonthSelector() {
+    const maandSelector = document.getElementById("maandSelector");
+    let now = new Date();
+    let currentMonth = now.getMonth(); // 0-indexed
+    const maanden = [
+        "Januari", "Februari", "Maart", "April", "Mei", "Juni",
+        "Juli", "Augustus", "September", "Oktober", "November", "December"
+    ];
+    // Populate the dropdown with Months do they current month the three months before and three after. Take a new year into account (Append the year)
+    for (let i = -3; i <= 3; i++) {
+        let monthIndex = (currentMonth + i + 12) % 12;
+        let year = now.getFullYear() + Math.floor((currentMonth + i) / 12);
+        let option = document.createElement("option");
+        option.value = `${monthIndex}-${year}`;
+        option.textContent = `${maanden[monthIndex]} ${year}`;
+        maandSelector.appendChild(option);
+    }
+    // set the current month as selected
+    maandSelector.value = `${currentMonth}-${now.getFullYear()}`;
+
+    maandSelector.addEventListener("change", automaticMonthDetection);
 
 }
+
+function getSelectedMonthAsDateObject() {
+    const maandSelector = document.getElementById("maandSelector");
+    const selectedMonthIndex = parseInt(maandSelector.value.split('-')[0], 10);
+    const year = parseInt(maandSelector.value.split('-')[1], 10);
+    return new Date(year, selectedMonthIndex, 1);
+}
+    
 
 
 
 function automaticMonthDetection() {
     let monthElement = document.getElementById("maandMarker");
-    let now = new Date();
-    let month = now.toLocaleString("nl-NL", { month: "long" });
+    let selectedMonth = getSelectedMonthAsDateObject();
+    let month = selectedMonth.toLocaleString("nl-NL", { month: "long" });
     monthElement.innerHTML = "Maandmail " + month;
 }
 
@@ -66,9 +99,14 @@ async function addOpkomstAutomatic() {
     }
     const ssl_knoppen = document.getElementById("ssl-knoppen");
     // Verwijder alle huidige opkomsten
+    const activiteiten = await haalActiviteitenHuidigeMaandOp();
+
+    if (!activiteiten || activiteiten.length === 0) {
+        return;
+    }
+
     ssl_knoppen.querySelectorAll(".remove-button").forEach(e => e.click());
 
-    const activiteiten = await haalActiviteitenHuidigeMaandOp();
     for (const activiteit of activiteiten) {
         let clone = addOpkomst();
 
@@ -89,14 +127,14 @@ async function haalActiviteitenHuidigeMaandOp() {
 
 
     // 1. Bereken de start- en einddatum van de HUIDIGE maand
-    const nu = new Date();
+    const currentSelectedMonth = getSelectedMonthAsDateObject();
 
   // Eerste dag van de huidige maand (00:00:00)
-    const eersteDag = new Date(nu.getFullYear(), nu.getMonth(), 1, 0, 0, 0);
+    const eersteDag = new Date(currentSelectedMonth.getFullYear(), currentSelectedMonth.getMonth(), 1, 0, 0, 0);
     
     // Gebruik de eerste dag van de volgende maand als EXCLUSIEVE bovengrens.
     // Dit voorkomt timezone-randproblemen en is in lijn met de Calendar API (timeMax exclusief).
-    const eersteDagVolgendeMaand = new Date(nu.getFullYear(), nu.getMonth() + 1, 1, 0, 0, 0);
+    const eersteDagVolgendeMaand = new Date(currentSelectedMonth.getFullYear(), currentSelectedMonth.getMonth() + 1, 1, 0, 0, 0);
 
     const timeMin = eersteDag.toISOString();
     const timeMax = eersteDagVolgendeMaand.toISOString();
@@ -111,9 +149,16 @@ async function haalActiviteitenHuidigeMaandOp() {
     url.searchParams.set('maxResults', '2500');
 
 
+    // Wrap the get request in try catch block to handle potential errors
 
+    
     const response = await fetch(url.toString());
 
+    if (!response.ok) {
+        console.error(`Error fetching events: ${response.status} ${response.statusText}`);
+        alert("Er is een fout opgetreden bij het ophalen van de activiteiten.");
+        return NULL;
+    }
     
     const data = await response.json();
     const items = Array.isArray(data.items) ? data.items : [];
@@ -183,11 +228,6 @@ function populateDefaultBlocks() {
     addOverig();
     addVerjaardag();
 }
-
-
-
-
-
 
 
 
@@ -268,8 +308,8 @@ function addVerjaardag() {
     addTemplate(id, "verjaardag-template", "verjaardagen");
     addRemoveButton(id, "ver-knoppen", "Verjaardag verwijderen");
     let verjaardagObject = document.getElementById(id);
-    let now = new Date();
-    let monthNumeric = now.toLocaleString("nl-NL", { month: "numeric" });
+    let currentSelectedMonth = getSelectedMonthAsDateObject();
+    let monthNumeric = currentSelectedMonth.toLocaleString("nl-NL", { month: "numeric" });
     verjaardagObject.querySelector('.verjaardagObj').textContent = `xx-${monthNumeric}`;
     return document.getElementById(id); // Return the clone for further manipulation if needed
 }
